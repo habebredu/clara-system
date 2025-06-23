@@ -22,7 +22,6 @@ logging.basicConfig(level=logging.INFO)
 
 BATCH_SIZE = 8  # Input token limit of 8000ish for this model, so 8 * 1000 = 8000 is max
 
-
 # ChromaDB Database
 vectorstore = Chroma(
     collection_name="faq_answers",
@@ -48,7 +47,7 @@ if len(vectorstore.get()['ids']) == 0:
 def get_similar(query):
     output = vectorstore.similarity_search(query, k=5)
     formatted = "\n".join(
-        f"From: {file.metadata.get('filename', 'unknown file')}\n{file.page_content}"
+        f"From: {file.metadata.get('Model Name', 'Unknown Model')}\n{file.page_content}"
         for file in output
     )
 
@@ -95,7 +94,7 @@ def process_file(filepath):
             logging.error(f"No text could be extracted from {filepath}")
             return
 
-        documents.append(Document(text, metadata=Path(filepath).stem[:6]))
+        documents.append(Document(text, metadata={"Model Name": Path(filepath).stem[:6]}))
 
     else:
         loader = TextLoader(filepath, encoding="utf-8")
