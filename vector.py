@@ -12,7 +12,6 @@ import os
 import logging
 import time
 
-# genai.configure(api_key="AIzaSyCvxwnQ3w0ENoTe5u68W1-HXTdgKlspBAk")
 openai_api_key = os.getenv("OPENAI_API_KEY")
 embedding_model = OpenAIEmbeddings(
     openai_api_key=openai_api_key,
