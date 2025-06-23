@@ -13,7 +13,7 @@ home cooks, coffee enthusiasts, and culinary professionals worldwide.
 This is the question: {query}
 
 The below information that is given to you may or may not be related to the question. They are formatted to include
-which filename they came from. Keep that in mind when answering questions about products. Here is the info:
+which product model number they refer to. Keep that in mind when answering questions about products. Here is the info:
 {context}
 
 When answering questions, give priority to previous chat history with the user over the above information provided.
