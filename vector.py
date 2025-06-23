@@ -46,7 +46,13 @@ if len(vectorstore.get()['ids']) == 0:
 
 
 def get_similar(query):
-    return vectorstore.similarity_search(query, k=1)[0]
+    output = vectorstore.similarity_search(query, k=5)
+    formatted = "\n".join(
+        f"From: {file.metadata.get('filename', 'unknown file')}\n{file.page_content}"
+        for file in output
+    )
+
+    return formatted
 
 
 def add_documents(documents):
