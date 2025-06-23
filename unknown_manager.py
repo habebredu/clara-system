@@ -124,7 +124,7 @@ def send_email(to, ticket_name):
         message["To"] = to
         message["From"] = CHATBOT
 
-        if not db2.get_history('email_history', ticket_name):  # If no previous bot-user email conversation
+        if len(db2.get_history('email_history', ticket_name)) <= 1:  # If no previous bot-user email conversation
             subject_main = generate_subject(clean_history(db2.get_history('history_user', ticket_name)))
             subject = f"{subject_main} | Ticket {ticket_name}"
             message["Subject"] = subject
@@ -132,7 +132,7 @@ def send_email(to, ticket_name):
 
         else:
             message["Subject"] = db2.get_ticket_field(ticket_name, 'subject')
-
+            print(db2.get_history('email_history', ticket_name))
             thread_id = db2.get_ticket_field(ticket_name, 'thread_id_user')
             thread = (service
                       .users()
@@ -160,6 +160,7 @@ def send_email(to, ticket_name):
                     'addLabelIds': [ticketed_label_id, child_label_id]
                 }
             ).execute()
+            print('first message')
 
         else:
             db2.append_history('email_history', ticket_name, 'bot', msg)
