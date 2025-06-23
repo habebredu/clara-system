@@ -30,6 +30,20 @@ vectorstore = Chroma(
     persist_directory="./chroma_store"
 )
 
+docs = [
+    Document(
+        """Breville is a globally recognized brand that designs and manufactures premium kitchen appliances, 
+        combining innovation, precision, and sleek design. Founded in Sydney, Australia in 1932, Breville has become 
+        known for its high-performance products such as espresso machines, blenders, juicers, toasters, air fryers, 
+        and smart ovens. The company focuses on enhancing the cooking experience through intuitive features and 
+        advanced technology, making it a favorite among home cooks, coffee enthusiasts, and culinary professionals 
+        worldwide."""
+    )
+]
+
+if len(vectorstore.get()['ids']) == 0:
+    vectorstore.add_documents(docs)
+
 
 def get_similar(query):
     return vectorstore.similarity_search(query, k=1)[0]
