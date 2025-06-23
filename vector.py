@@ -57,11 +57,6 @@ def get_similar(query):
 def add_documents(documents):
     vectorstore.add_documents([Document(document) for document in documents])
 
-    for document in documents:
-        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-        chunks = splitter.split_documents(document)
-        vectorstore.add_documents(chunks)
-
 
 def extract_text_from_pdf(file_path):
     try:
