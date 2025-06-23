@@ -95,7 +95,7 @@ def process_file(filepath):
             logging.error(f"No text could be extracted from {filepath}")
             return
 
-        documents.append(Document(text))
+        documents.append(Document(text, metadata=Path(filepath).stem[:6]))
 
     else:
         loader = TextLoader(filepath, encoding="utf-8")
