@@ -26,10 +26,13 @@ def get_service():
     creds = None
     if os.path.exists("token.json"):
         creds = Credentials.from_authorized_user_file("token.json", SCOPES)
-    # Refresh tokens if expired
     if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-        print("Refreshed tokens...")
+        try:
+            creds.refresh(Request())
+        except RefreshError:
+            # Refresh token invalid, do full auth flow
+            flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
+            creds = flow.run_local_server(port=0)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
