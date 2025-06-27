@@ -15,6 +15,7 @@ import vector
 from chatbot import generate_subject, summarise_solution
 from ticket_manager import DatabaseHandler, clean_history
 
+import json
 import time
 
 SCOPES = ["https://mail.google.com/"]
