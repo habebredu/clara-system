@@ -25,19 +25,22 @@ CHATBOT = "habeb.chat.bot@gmail.com"
 
 def get_service():
     creds = None
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+
+    with open("credentials.json", "w") as f:
+        f.write(os.environ["CREDENTIALS_JSON"])
+        
+    if "TOKEN_JSON" in os.environ:
+        creds = Credentials.from_authorized_user_file(
+            json.loads(os.environ["TOKEN_JSON"]), SCOPES
+        )
     if creds and creds.expired and creds.refresh_token:
         try:
             creds.refresh(Request())
-        except RefreshError:
-            # Refresh token invalid, do full auth flow
-            flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
-            creds = flow.run_local_server()
+        except RefreshError as e:
+            print("URGENT: No valid credentials. Run locally.")
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
-        flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
-        creds = flow.run_local_server()
+        print("URGENT: No valid credentials. Run locally.")
 
     # Save the credentials for the next run
     with open("token.json", "w") as token:
