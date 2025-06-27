@@ -26,22 +26,16 @@ CHATBOT = "habeb.chat.bot@gmail.com"
 
 def get_service():
     creds = None
-
-    with open("credentials.json", "w") as f:
-        f.write(os.environ["CREDENTIALS_JSON"])
-        
-    if "TOKEN_JSON" in os.environ:
-        creds = Credentials.from_authorized_user_file(
-            json.loads(os.environ["TOKEN_JSON"]), SCOPES
-        )
+    if os.path.exists("token.json"):
+        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
     if creds and creds.expired and creds.refresh_token:
         try:
             creds.refresh(Request())
-        except RefreshError as e:
-            print("URGENT: No valid credentials. Run locally.")
+        except RefreshError:
+            print("Refresh Error")
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
-        print("URGENT: No valid credentials. Run locally.")
+        print("Refresh Error")
 
     # Save the credentials for the next run
     with open("token.json", "w") as token:
@@ -49,7 +43,7 @@ def get_service():
 
     service = build("gmail", "v1", credentials=creds)
     return service
-
+    
 
 def get_or_create_label(label_name):
     service = get_service()
