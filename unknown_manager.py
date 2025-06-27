@@ -238,5 +238,6 @@ def background_ticket_watcher():
                             db.close_ticket(ticket_name)
                             solution_summary = summarise_solution(ticket_name)
                             vector.add_documents([solution_summary])
+                            print(f"Ticket {ticket_name} Closed")
 
         time.sleep(15)
