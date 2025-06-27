@@ -18,7 +18,7 @@ import time
 
 SCOPES = ["https://mail.google.com/"]
 
-ADMIN = "habeb.rizmi@hotmail.com"
+ADMIN = "teacheraccess.ec1@gmail.com"
 CHATBOT = "habeb.chat.bot@gmail.com"
 
 
